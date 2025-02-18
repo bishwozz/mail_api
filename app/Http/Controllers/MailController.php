@@ -10,6 +10,7 @@ class MailController extends Controller
 {
     public function sendEmail(Request $request)
     {
+        // return $request;
         $data = $request->validate([
             'to' => 'required|email',
             'subject' => 'required|string',
