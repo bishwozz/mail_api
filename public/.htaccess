@@ -18,8 +18,38 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # Ensure that all requests are directed to the front controller
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_php7.c>
+    # PHP Settings (if required)
+    php_flag display_errors Off
+    php_value max_execution_time 300
+    php_value memory_limit 512M
+</IfModule>
+
+# Protect the .env file
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Protect the storage and cache directories
+<Directory "/home/username/public_html/send.mail.codetara.com/storage">
+    AllowOverride None
+    Require all denied
+</Directory>
+
+<Directory "/home/username/public_html/send.mail.codetara.com/bootstrap/cache">
+    AllowOverride None
+    Require all denied
+</Directory>
+
+# Optional: Redirect www to non-www (or vice versa)
+# Uncomment if you want to force non-www URLs
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 </IfModule>
