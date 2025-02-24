@@ -47,6 +47,8 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            'auth_mode' => null,
+            'verify_peer' => false,
         ],
 
         'ses' => [
@@ -112,5 +114,13 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+
+    'stream' => [
+    'ssl' => [
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true,
+    ],
+],
 
 ];

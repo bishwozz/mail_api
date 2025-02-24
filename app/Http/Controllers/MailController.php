@@ -21,9 +21,9 @@ class MailController extends Controller
             // Send email using a Mailable
             Mail::to($data['to'])->send(new SendMail($data));
 
-            return response()->json(['status' => 'Email sent successfully']);
+            return response()->json(['status' =>True, 'message' => 'Email sent successfully']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Email could not be sent', 'message' => $e->getMessage()], 500);
+            return response()->json(['status' =>False,'message' => 'Email could not be sent', 'message' => $e->getMessage()], 500);
         }
     }
 
