@@ -21,7 +21,10 @@ class SendMail extends Mailable
         return $this->view('emails.sendMail')
                     ->subject($this->data['subject'])
                     ->with([
-                        'message_ht' => $this->data['message'],
+                        'subject' => $this->data['subject'], // Pass subject to view
+                        'message_ht' => is_array($this->data['message']) 
+                                        ? json_encode($this->data['message'], JSON_PRETTY_PRINT) 
+                                        : $this->data['message'], // Ensure correct format
                     ]);
     }
 }

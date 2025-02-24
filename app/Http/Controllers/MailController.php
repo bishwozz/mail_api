@@ -14,16 +14,23 @@ class MailController extends Controller
         $data = $request->validate([
             'to' => 'required|email',
             'subject' => 'required|string',
-            'message' => 'required',
+            'message' => 'required|array',
         ]);
 
         try {
-            // Send email using a Mailable
+            // Convert message array to JSON string (if needed)
+            $data['message'] = json_encode($data['message']);
+    
+            // Send email using the Mailable
             Mail::to($data['to'])->send(new SendMail($data));
-
-            return response()->json(['status' =>True, 'message' => 'Email sent successfully']);
+    
+            return response()->json(['status' => true, 'message' => 'Email sent successfully']);
         } catch (\Exception $e) {
-            return response()->json(['status' =>False,'message' => 'Email could not be sent', 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'status' => false,
+                'error' => 'Email could not be sent',
+                'details' => $e->getMessage()
+            ], 500);
         }
     }
 
